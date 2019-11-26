@@ -5,9 +5,7 @@ const cors = require('cors');
 const axios = require('axios');
 const pick = require('lodash.pick');
 
-
-const port = process.env.CURRENT_NODE;
-const nextNode = process.env.NEXT_NODE;
+const node = 3;
 
 getOriginalChips = () => {
     return [
@@ -90,13 +88,13 @@ app.post('/login', (req, res) => {
         nodeData.users.push(user);
         nodeData.localUser = user;
 
-    sendSyncRequest(getDataForOverride(), port);
+    sendSyncRequest(getDataForOverride(), node);
     }
     res.json(getUserData());
 });
 
 app.put('/sync-data', (req, res) => {
-    if (req.body.initNode !== port) {
+    if (req.body.initNode !== node) {
         let {data, initNode} = req.body;
         
         overrideSharedData(data);
@@ -133,7 +131,7 @@ app.post('/games', (req, res) => {
 
     nodeData.games.push(newGame);
 
-    sendSyncRequest(getDataForOverride(), port);
+    sendSyncRequest(getDataForOverride(), node);
 
     res.json({"success": true});
 });
@@ -148,7 +146,7 @@ app.put('/games/:game/join', (req, res) => {
     game.chips_player_1 = chunkedShuffledShips[0];
     game.chips_player_2 = chunkedShuffledShips[1];
 
-    sendSyncRequest(getDataForOverride(), port);
+    sendSyncRequest(getDataForOverride(), node);
 
     res.json({"success": true});
 });
@@ -175,7 +173,7 @@ app.post('/games/:game/moves', (req, res) => {
 
     playerChips.splice(playerChips.indexOf(playedChip), 1);
 
-    sendSyncRequest(getDataForOverride(), port);
+    sendSyncRequest(getDataForOverride(), node);
 
     res.json({"success": true});
 });
