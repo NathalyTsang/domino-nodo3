@@ -1,5 +1,3 @@
-require("./config");
-
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -70,7 +68,7 @@ const overrideSharedData = (sharedData) => {
 }
 
 const sendSyncRequest = (data, initNode) => {
-    return axios.put(`https://lurana-domino.herokuapp.com:${ nextNode }/sync-data`, {data, initNode});
+    return axios.put(`https://lurana-domino1.herokuapp.com/sync-data`, {data, initNode});
 }
 
 const getUserData = () => {
@@ -182,4 +180,5 @@ app.post('/games/:game/moves', (req, res) => {
     res.json({"success": true});
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+//app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen (process.env.PORT);
